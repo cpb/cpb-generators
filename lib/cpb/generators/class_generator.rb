@@ -46,10 +46,8 @@ module Cpb
 
         unless parts.empty?
           i = parts.length
-          parts.inject(constant_string(i+1,"class",first_part)) do |memo, namespace|
-            return_value = constant_string(i,"module",namespace,memo)
-            i -= 1
-            return_value
+          parts.inject(constant_string(i,"class",first_part)) do |memo, namespace|
+            constant_string(i-=1,"module",namespace,memo)
           end
         else
           "class #{first_part}\nend"

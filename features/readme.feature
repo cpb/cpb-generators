@@ -10,7 +10,15 @@ Feature: I can install cpb-generators and generate files
     """
     And I run `bundle install`
     When I run `bundle exec cpb entity many/namespace/new_name`
-    Then a file named "lib/many/namespace/new_name.rb" should exist
+    Then the file "lib/many/namespace/new_name.rb" should contain:
+    """
+    module Many
+      module Namespace
+        class NewName
+        end
+      end
+    end
+    """
     And a file named "spec/many/namespace/new_name_spec.rb" should exist
 
   Scenario: Usage post installation
