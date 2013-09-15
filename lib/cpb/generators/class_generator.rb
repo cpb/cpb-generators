@@ -46,16 +46,22 @@ module Cpb
 
         unless parts.empty?
           i = parts.length
-          parts.inject(lambda { "#{tabs(parts.length)}class #{first_part}\n#{tabs(parts.length)}end\n" }) do |memo, namespace|
-            lambda do
-              "#{tabs(i-=1)}module #{namespace}\n" +
-                memo.call +
-              "#{tabs(i)}end\n"
-            end
-          end.call
+          parts.inject(constant_string(i+1,"class",first_part)) do |memo, namespace|
+            return_value = constant_string(i,"module",namespace,memo)
+            i -= 1
+            return_value
+          end
         else
           "class #{first_part}\nend"
         end
+      end
+
+      def constant_string(level,type,name,children=nil)
+        return_value = tabs(level)
+        return_value += [type,name].join(" ")+"\n"
+        return_value += children if children
+        return_value += tabs(level)
+        return_value += "end\n"
       end
 
       def tabs(i)
