@@ -42,10 +42,9 @@ module Cpb
       end
 
       def verbose_namespace_definition(name)
-        first_part, parts = described_class(name).split("::").reverse
+        first_part, *parts = described_class(name).split("::").reverse
 
-        if parts
-          parts = Array(parts)
+        unless parts.empty?
           i = parts.length
           parts.inject(lambda { "#{tabs(parts.length)}class #{first_part}\n#{tabs(parts.length)}end\n" }) do |memo, namespace|
             lambda do

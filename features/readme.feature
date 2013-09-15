@@ -9,9 +9,9 @@ Feature: I can install cpb-generators and generate files
     end
     """
     And I run `bundle install`
-    When I run `bundle exec cpb entity namespace/new_name`
-    Then a file named "lib/namespace/new_name.rb" should exist
-    And a file named "spec/namespace/new_name_spec.rb" should exist
+    When I run `bundle exec cpb entity many/namespace/new_name`
+    Then a file named "lib/many/namespace/new_name.rb" should exist
+    And a file named "spec/many/namespace/new_name_spec.rb" should exist
 
   Scenario: Usage post installation
     Given a Gemfile setup with:
@@ -20,6 +20,7 @@ Feature: I can install cpb-generators and generate files
       gem 'cpb-generators', path: '../..'
     end
     """
-    And I run `bundle exec cpb entity namespace/class_name`
+    And I run `bundle exec cpb entity many/namespace/class_name`
     When I run `bundle exec rspec`
     Then the output should contain "pending"
+    Then the output should contain "Many::Namespace::ClassName"

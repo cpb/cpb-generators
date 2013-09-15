@@ -14,6 +14,18 @@ describe Cpb::Generators::ClassGenerator do
     capture(:stdout) { gen.invoke_all }
   end
 
+  describe 'deep namespacing' do
+    before do
+      run_generator %w(many/namespaces/here)
+    end
+
+    describe 'the spec' do
+      subject { file('lib/many/namespaces/here.rb') }
+
+      it { should contain(/module Many/) }
+    end
+  end
+
   describe 'the generated files' do
     before do
       run_generator %w(posts)
